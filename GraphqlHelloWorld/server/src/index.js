@@ -10,7 +10,7 @@ const typeDefs = `
 const resolvers = {
   Query: {
     hello: (_, args) => `Hello ${args.name || 'World'}!`,
-    greet: (_, args) => `${args.greet || 'Ohaio Gosiemush'}`,
+    greet: (_, args) => `${args.greet || 'ohayo gozaimasu'}`,
   },
 }
 
