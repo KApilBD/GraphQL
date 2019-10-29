@@ -38,6 +38,33 @@ class App extends Component {
               )
             }}
           </Query>
+          <Query query={GREET_QUERY}>
+            {props => {
+              console.log(props)
+              const { data, loading, error, refetch } = props
+              if (loading) {
+                return <div>Loading</div>
+              }
+
+              if (error) {
+                return <div>An unexpected error occurred</div>
+              }
+
+              return (
+                <div>
+                  <p>Want to Greet?</p>
+                  <InputName
+                    onSubmit={greet => {
+                      refetch({
+                        greet,
+                      })
+                    }}
+                  />
+                  <h3>{data.greet}</h3>
+                </div>
+              )
+            }}
+          </Query>
         </div>
       </div>
     )
@@ -47,6 +74,11 @@ class App extends Component {
 const HELLO_QUERY = gql`
   query HelloQuery($name: String) {
     hello(name: $name)
+  }
+`
+const GREET_QUERY = gql`
+  query GreetQuery($greet: String) {
+    greet(greet: $greet)
   }
 `
 
