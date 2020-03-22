@@ -2,10 +2,15 @@ require("dotenv").config();
 
 const path = require('path');
 const express = require('express');
+const graphqlHttp = require("express-graphql");
 const bodyParser = require('body-parser');
 
 const mongoose = require('mongoose');
 const multer = require('multer');
+
+const graphqlSchema = require("./graphql/schema");
+const graphqlResolver = require("./graphql/resolvers");
+
 
 
 const app = express();
@@ -43,6 +48,13 @@ app.use((req, res, next) => {
     next();
 })
 
+app.use(
+    "/graphql",
+    graphqlHttp({
+        schema: graphqlSchema,
+        rootValue: graphqlResolver
+    }));
+
 
 app.use((error, req, res, next) => {
     console.log(error);
@@ -57,5 +69,5 @@ app.use((error, req, res, next) => {
 
 mongoose.connect(mongoUri, { useUnifiedTopology: true, useNewUrlParser: true })
     .then(result => {
-        app.listen(8080, () => console.log("Running on 8080!!!"))
+        app.listen(8081, () => console.log("Running on 8080!!!"))
     }).catch(err => console.log(err))
